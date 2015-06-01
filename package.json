@@ -1,36 +1,43 @@
 {
-  "name": "eth-netstats",
-  "description": "Ethereum Network Intelligence dashboard",
-  "version": "0.0.7",
+  "name": "eth-net-intelligence-api",
+  "description": "Ethereum Network Intelligence API",
+  "version": "0.0.11",
   "private": true,
-  "engines": {
-    "node": "0.12.0",
-    "npm": "2.5.1"
-  },
-  "scripts": {
-    "start": "node ./bin/www"
+  "main": "./app.js",
+  "directories": {
+    "lib": "./lib"
   },
   "dependencies": {
-    "body-parser": "1.12.4",
-    "d3": "^3.5.5",
+    "async": "^1.0.0",
+    "chalk": "^1.0.0",
+    "debounce": "1.0.0",
     "debug": "2.2.0",
-    "express": "4.12.4",
-    "geoip-lite": "1.1.6",
-    "jade": "1.10.0",
     "lodash": "3.9.3",
     "primus": "3.0.2",
     "primus-emit": "0.1.2",
     "primus-spark-latency": "0.1.1",
+    "shelljs": "0.5.0",
+    "web3": "0.4.3",
     "ws": "0.7.2"
+  },
+  "scripts": {
+    "start": "node ./app.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cubedro/eth-netstats.git"
+    "url": "https://github.com/cubedro/eth-net-intelligence-api.git"
   },
-  "homepage": "https://github.com/cubedro/eth-netstats",
+  "homepage": "https://github.com/cubedro/eth-net-intelligence-api",
   "bugs": {
-    "url": "https://github.com/cubedro/eth-netstats/issues"
+    "url": "https://github.com/cubedro/eth-net-intelligence-api/issues"
   },
+  "keywords": [
+    "ethereum",
+    "network",
+    "intelligence",
+    "API"
+  ],
+  "author": "ethdev.com",
   "authors": [
     {
       "name": "Marian Oancea",
@@ -38,14 +45,5 @@
       "url": "https://github.com/cubedro"
     }
   ],
-  "license": "LGPL-3.0",
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-contrib-copy": "^0.8.0",
-    "grunt-contrib-cssmin": "^0.12.3",
-    "grunt-contrib-jade": "^0.14.1",
-    "grunt-contrib-uglify": "^0.9.1"
-  }
+  "license": "LGPL-3.0"
 }
