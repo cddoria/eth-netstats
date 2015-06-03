@@ -61,9 +61,9 @@ if( process.env.NODE_ENV !== 'production' )
 }
 else
 {
-	var server = require('http').createServer();
+	var server = require('http').createServer(localhost:3000);
 }
-
+/*
 api = new Primus(server, {
 	transformer: 'websockets',
 	pathname: '/api',
@@ -78,7 +78,7 @@ var client = new Primus(server, {
 	pathname: '/primus',
 	parser: 'JSON'
 });
-
+*/
 var clientLatency = 0;
 
 client.use('emit', require('primus-emit'));
