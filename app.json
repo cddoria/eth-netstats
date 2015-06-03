@@ -1,0 +1,43 @@
+[
+  {
+    "name"              : "bluecahin_0",
+    "script"            : "app.js",
+    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+    "merge_logs"        : false,
+    "watch"             : false,
+    "exec_interpreter"  : "node",
+    "exec_mode"         : "fork_mode",
+    "env":
+    {
+      "NODE_ENV"        : "production",
+      "RPC_HOST"        : "9.37.228.37",
+      "RPC_PORT"        : "8110",
+      "LISTENING_PORT"  : "30310",
+      "INSTANCE_NAME"   : "bluecahin_0",
+      "CONTACT_DETAILS" : "",
+      "WS_SERVER"       : "http://localhost:3000",
+      "WS_SECRET"       : "eth_secret",
+    }
+  },
+  {
+    "name"              : "bluechain_1",
+    "script"            : "app.js",
+    "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+    "merge_logs"        : false,
+    "watch"             : false,
+    "exec_interpreter"  : "node",
+    "exec_mode"         : "fork_mode",
+    "env":
+    {
+      "NODE_ENV"        : "production",
+      "RPC_HOST"        : "9.37.228.37",
+      "RPC_PORT"        : "8111",
+      "LISTENING_PORT"  : "30311",
+      "INSTANCE_NAME"   : "bluechain_1",
+      "CONTACT_DETAILS" : "",
+      "WS_SERVER"       : "http://localhost:3000",
+      "WS_SECRET"       : "eth_secret",
+    }
+  },
+
+]
