@@ -7,7 +7,7 @@ var Primus = require('primus'),
 	api,
 	client;
 
-var WS_SECRET = process.env.WS_SECRET || "eth-net-stats-has-a-secret";
+//var WS_SECRET = process.env.WS_SECRET || "eth-net-stats-has-a-secret";
 
 var Collection = require('./models/collection');
 var Nodes = new Collection();
@@ -21,7 +21,7 @@ if( process.env.NODE_ENV !== 'production' )
 	var path = require('path');
 	var bodyParser = require('body-parser');
 
-	// view engine setup
+	//view engine setup
 	app.set('views', path.join(__dirname, 'src/views'));
 	app.set('view engine', 'jade');
 	app.use(bodyParser.json());
@@ -57,15 +57,17 @@ if( process.env.NODE_ENV !== 'production' )
 		});
 	});
 
+	var server = ('http://localhost:3000');
+
 	var server = require('http').createServer(app);
 }
 else
 {
-	var server = require('http').createServer(localhost:3000);
+	var server = require('http').createServer();
 }
-/*
+
 api = new Primus(server, {
-	transformer: 'websockets',
+	//transformer: 'websockets',
 	pathname: '/api',
 	parser: 'JSON'
 });
@@ -74,11 +76,11 @@ api.use('emit', require('primus-emit'));
 api.use('spark-latency', require('primus-spark-latency'));
 
 var client = new Primus(server, {
-	transformer: 'websockets',
+	//transformer: 'websockets',
 	pathname: '/primus',
 	parser: 'JSON'
 });
-*/
+
 var clientLatency = 0;
 
 client.use('emit', require('primus-emit'));
@@ -94,13 +96,13 @@ api.on('connection', function(spark) {
 		console.log('Latency: ', spark.latency);
 		console.log('Got hello data from ', spark.id);
 		console.log(data);
-
-		if( _.isUndefined(data.secret) || data.secret !== WS_SECRET )
+/*
+	if( _.isUndefined(data.secret) || data.secret !== WS_SECRET )
 		{
 			spark.end(undefined, { reconnect: false });
 
 			return false;
-		}
+		}*/
 
 		if( !_.isUndefined(data.id) && !_.isUndefined(data.info) )
 		{
