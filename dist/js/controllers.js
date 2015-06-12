@@ -3,7 +3,7 @@
 
 netStatsApp.controller('StatsCtrl', function($scope, $filter, socket, _, toastr) {
 
-var N = require("../../lib/node.js");
+//var N = require("/../../lib/node.js");
 
 	var MAX_BINS = 40;
 
@@ -81,7 +81,7 @@ var N = require("../../lib/node.js");
 
 	socket.on('open', function open() {
 		socket.emit('ready');
-		console.log('The connection has beennnnnnnnnn opened.');
+		console.log('The connection has been opened.');
 	})
 	.on('end', function end() {
 		console.log('Socket connection ended.')
