@@ -81,7 +81,7 @@ netStatsApp.controller('StatsCtrl', function($scope, $filter, socket, _, toastr)
 
 	socket.on('open', function open() {
 		socket.emit('ready');
-		console.log('The connection has been opened.');
+		console.log('The connection has beeeen opened.');
 	})
 	.on('end', function end() {
 		console.log('Socket connection ended.')
@@ -93,23 +93,24 @@ netStatsApp.controller('StatsCtrl', function($scope, $filter, socket, _, toastr)
 		console.log('We are scheduling a reconnect operation', opts);
 	})
 	.on('data', function incoming(data) {
+
 		socketAction(data.action, data.data);
 	});
 
-	socket.on('init', function(N)
+	socket.on('init', function(data)
 	{
-		socketAction("init", N.nodes);
+		socketAction("init", data.nodes);
 	});
 
-	socket.on('client-latency', function(N)
+	socket.on('client-latency', function(data)
 	{
-		$scope.latency = N.latency;
+		$scope.latency = data.latency;
 	})
 
-	function socketAction(action, N)
+	function socketAction(action, data)
 	{
-		// console.log('Action: ', action);
-		// console.log('Data: ', data);
+		 console.log('Action: ', action);
+		 console.log('Data: ', data);
 
 		switch(action) {
 			case "init":
@@ -118,8 +119,7 @@ netStatsApp.controller('StatsCtrl', function($scope, $filter, socket, _, toastr)
 				if( $scope.nodes.length > 0 ){
 					oldNodes = $scope.nodes;
 				}
-
-				$scope.nodes = N.stats;
+					$scope.nodes.stats = data;
 
 				_.forEach($scope.nodes, function (node, index) {
 					// Init hashrate
@@ -127,7 +127,7 @@ netStatsApp.controller('StatsCtrl', function($scope, $filter, socket, _, toastr)
 						$scope.nodes[index].stats.hashrate = 0;
 
 					// Init history
-					if( _.isUndefined(N.history) )
+					if( _.isUndefined(data.history) )
 					{
 						data.history = new Array(40);
 						_.fill(data.history, -1);
@@ -143,10 +143,10 @@ netStatsApp.controller('StatsCtrl', function($scope, $filter, socket, _, toastr)
 				break;
 
 			case "add":
-				var index = findIndex({id: N.id});
+				var index = findIndex({id: data.id});
 
 				if( addNewNode(data) )
-					toastr['success']("New node "+ $scope.nodes[findIndex({id: N.id})].info.name +" connected!", "New node!");
+					toastr['success']("New node "+ $scope.nodes[findIndex({id: data.id})].info.name +" connected!", "New node!");
 				else
 					toastr['info']("Node "+ $scope.nodes[index].info.name +" reconnected!", "Node is back!");
 

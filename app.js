@@ -1,10 +1,11 @@
-var _ = require('lodash');
+/*var _ = require('lodash');
 
 var askedForHistory = false;
 var askedForHistoryTime = 0;
+var N = require("./lib/node.js");
 
 var Primus = require('primus'),
-	api,
+	//api,
 	client;
 
 //var WS_SECRET = process.env.WS_SECRET || "eth-net-stats-has-a-secret";
@@ -65,18 +66,18 @@ else
 {
 	var server = require('http').createServer();
 }
-
-api = new Primus(server, {
-	//transformer: 'websockets',
+/*
+spark = new Primus(server, {
+	transformer: 'websockets',
 	pathname: '/api',
 	parser: 'JSON'
 });
 
-api.use('emit', require('primus-emit'));
-api.use('spark-latency', require('primus-spark-latency'));
+spark.use('emit', require('primus-emit'));
+spark.use('spark-latency', require('primus-spark-latency'));
 
 var client = new Primus(server, {
-	//transformer: 'websockets',
+	transformer: 'websockets',
 	pathname: '/primus',
 	parser: 'JSON'
 });
@@ -84,63 +85,111 @@ var client = new Primus(server, {
 var clientLatency = 0;
 
 client.use('emit', require('primus-emit'));
+console.log(N.WSC3);
+if(N.WSC3 == true){
+	console.log('Latency: ', N._latency);
+	console.log(N.id);
+	console.log(N.address);
+	console.log(N.query);
 
-api.on('connection', function(spark) {
-	console.log('Latency: ', spark.latency);
-	console.log(spark.id);
-	console.log(spark.address);
-	console.log(spark.query);
 
-	spark.on('hello', function(data)
-	{
-		console.log('Latency: ', spark.latency);
-		console.log('Got hello data from ', spark.id);
-		console.log(data);
-/*
-	if( _.isUndefined(data.secret) || data.secret !== WS_SECRET )
+		console.log('Latency: ', N.latency);
+		console.log('Got hello data from ', N.id);
+		console.log(N.stats);
+}
+/*	if( _.isUndefined(data.secret) || data.secret !== WS_SECRET )
 		{
 			spark.end(undefined, { reconnect: false });
 
 			return false;
-		}*/
-
-		if( !_.isUndefined(data.id) && !_.isUndefined(data.info) )
+		}
+		if(N.startWeb3Connection === true)
 		{
-			data.ip = spark.address.ip;
-			data.spark = spark.id;
-			data.latency = spark.latency;
+			start();
+		}
+	 	function start()
+  {
+				//add
+		var info = Nodes.add( N );
+		client.write({
+			action: 'add',
+			data: info
+		});
+		client.write({
+			action: 'charts',
+			data: Nodes.getCharts()
+		});
+	//update
+		var stats = Nodes.update(N.id, N.stats);
+		client.write({
+			action: 'update',
+			data: stats
+		});
+		client.write({
+			action: 'charts',
+			data: Nodes.getCharts()
+		});
+		//history
+
+		console.log("got history from " + N.id);
+
+		client.write({
+			action: 'charts',
+			data: Nodes.addHistory(N.id, N.history)
+		});
+
+		askedForHistory = false;
+		var range = Nodes.getHistory().getHistoryRequestRange();
+
+		console.log("asked " + N.id + " for history: " + range.min + " - " + range.max);
+		spark.emit('history', range);
+		askedForHistory = true;
+		askedForHistoryTime = _.now();
+//latency
+		var stats = Nodes.updateLatency(N.id, N.latency);
+
+		client.write({
+		action: 'latency',
+		data: stats
+	});
+}/*
+		if( !_.isUndefined(N.id) && !_.isUndefined(N.info) )
+		{
+			data.ip = N.address.ip;
+			data.N = N.id;
+			data.latency = N.latency;
 
 			var info = Nodes.add( data );
 			spark.emit('ready');
 
-			client.write({
+		-	client.write({
 				action: 'add',
 				data: info
 			});
 
-			client.write({
+		-	client.write({
 				action: 'charts',
 				data: Nodes.getCharts()
 			});
+			console.log(data.id);
 		}
-	});
 
 	spark.on('update', function(data)
 	{
 		if( !_.isUndefined(data.id) && !_.isUndefined(data.stats) )
 		{
-			data.stats.latency = spark.latency;
+			data.stats.latency = N.latency;
 
 			var stats = Nodes.update(data.id, data.stats);
 
 			if(stats !== false)
 			{
-				client.write({
+				-client.write({
 					action: 'update',
 					data: stats
 				});
 
-				client.write({
+			-	client.write({
 					action: 'charts',
 					data: Nodes.getCharts()
 				});
@@ -192,14 +241,14 @@ api.on('connection', function(spark) {
 
 	spark.on('end', function(data)
 	{
-		var stats = Nodes.inactive(spark.id);
+		var stats = Nodes.inactive(N.id);
 
 		client.write({
 			action: 'inactive',
 			data: stats
 		});
 	});
-});
+//});
 
 client.on('connection', function(clientSpark)
 {
@@ -246,7 +295,7 @@ var nodeCleanupTimeout = setInterval( function ()
 server.listen(process.env.PORT || 3000);
 
 module.exports = server;
-
+*/
 //api-part
 'use strict';
 
